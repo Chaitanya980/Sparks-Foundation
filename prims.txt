@@ -1,0 +1,38 @@
+public static class Edge{
+        int src,des,wt;
+        public Edge(int s,int d){
+            this.src=s;
+            this.des=d;
+            // this.wt=w;
+        }
+    }
+    static class Pair2 implements Comparable<Pair2>{
+        int v ,cost;
+        public Pair2(int v,int c){
+            this.v=v;
+            this.cost=c;
+        }
+        public int compareTo(Pair2 p2){
+            return this.cost-p2.cost;
+        }
+    }
+    public static void prims(ArrayList<Edge>graph[]) {
+        boolean vis[]= new boolean[graph.length];
+        PriorityQueue<Pair2>pq = new PriorityQueue<>();
+        pq.add(new Pair2(0, 0));
+        int finalCost=0;  // min cost / total weight
+
+        while (!pq.isEmpty()) {
+            Pair2 curr = pq.remove();
+            if(!vis[curr.v]) {
+                vis[curr.v]=true;
+                finalCost+=curr.cost;
+                for (int i = 0; i < graph[curr.v].size(); i++) {
+                        Edge e =graph[curr.v].get(i);
+                        pq.add(new Pair2(e.des, e.wt));
+                }
+                
+            }
+        }
+        System.out.println("Total cost ="+finalCost);
+    }

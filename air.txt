@@ -1,0 +1,29 @@
+% Airports
+airport(london).
+airport(paris).
+airport(new_york).
+airport(tokyo).
+
+% Flights
+flight(london, paris, 100, 2).
+flight(london, new_york, 500, 8).
+flight(paris, new_york, 400, 6).
+flight(paris, tokyo, 800, 12).
+flight(new_york, tokyo, 700, 10).
+
+% Cargo items
+cargo(item1, london, tokyo, 200).
+cargo(item2, paris, new_york, 300).
+cargo(item3, new_york, paris, 250).
+cargo(item4, tokyo, london, 150).
+cargo(item5, new_york, tokyo, 400).
+
+% Predicate to find a valid flight route for cargo
+route_available(Cargo, Departure, Destination, Cost, Duration) :-
+    cargo(Cargo, Departure, Destination, _),
+    flight(Departure, Destination, Cost, Duration).
+
+% Predicate to find the total cost of shipping all cargo items
+total_cost(Cost) :-
+    findall(C, (cargo(Item, Dep, Dest, _), route_available(Item, Dep, Dest, C, _)), Costs),
+    sumlist(Costs, Cost).
